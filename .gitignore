@@ -1,0 +1,80 @@
+# ==========================
+# Android Studio
+# ==========================
+*.iml
+.idea/
+.gradle/
+local.properties
+
+# ==========================
+# Build
+# ==========================
+build/
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# ==========================
+# Kotlin
+# ==========================
+*.class
+*.kotlin_module
+
+# ==========================
+# Logs
+# ==========================
+*.log
+
+# ==========================
+# Generated files
+# ==========================
+generated/
+out/
+
+# ==========================
+# APKs
+# ==========================
+*.apk
+*.aab
+
+# ==========================
+# Keystores
+# ==========================
+*.jks
+*.keystore
+
+# ==========================
+# DataStore / Cache
+# ==========================
+*.tmp
+*.bak
+
+# ==========================
+# OS Files
+# ==========================
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Secrets
+# ==========================
+local.properties
+apikey.properties
+secrets.properties
+
+# ==========================
+# Firebase
+# ==========================
+google-services.json
+
+# ==========================
+# Crashlytics
+# ==========================
+com_crashlytics_export_strings.xml
+crashlytics-build.properties
+
+# ==========================
+# NDK
+# ==========================
+obj/
