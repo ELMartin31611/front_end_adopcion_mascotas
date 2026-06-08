@@ -3,6 +3,7 @@ package com.adopcion.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adopcion.domain.model.Rescate
+import com.adopcion.domain.model.RescatePayload
 import com.adopcion.domain.repository.RescateRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -25,6 +26,7 @@ class RescateViewModel @Inject constructor(
 
     fun loadRescates() {
         viewModelScope.launch {
+
             _loading.value = true
 
             repository.getRescates()
@@ -37,6 +39,34 @@ class RescateViewModel @Inject constructor(
                 }
 
             _loading.value = false
+        }
+    }
+
+    fun crearRescate(payload: RescatePayload) {
+        viewModelScope.launch {
+
+            repository.createRescate(payload)
+                .onSuccess {
+                    loadRescates()
+                }
+                .onFailure {
+                    _error.value =
+                        it.message ?: "Error al crear rescate"
+                }
+        }
+    }
+
+    fun eliminarRescate(id: Int) {
+        viewModelScope.launch {
+
+            repository.deleteRescate(id)
+                .onSuccess {
+                    loadRescates()
+                }
+                .onFailure {
+                    _error.value =
+                        it.message ?: "Error al eliminar rescate"
+                }
         }
     }
 }

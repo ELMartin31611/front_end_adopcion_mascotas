@@ -7,7 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun PerfilScreen() {
+fun PerfilScreen(onLogout: () -> Unit) {
 
     Box(
         modifier = Modifier.fillMaxSize(),

@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.*
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.adopcion.presentation.ui.admin.AdminDashboardScreen
 import com.adopcion.presentation.ui.auth.LoginScreen
 import com.adopcion.presentation.ui.auth.RegisterScreen
@@ -17,6 +20,8 @@ import com.adopcion.presentation.ui.rescates.RescatesScreen
 import com.adopcion.presentation.ui.solicitudes.SolicitudesScreen
 import com.adopcion.presentation.viewmodel.AuthViewModel
 
+
+
 @Composable
 fun NavGraph(
     authViewModel: AuthViewModel
@@ -27,9 +32,7 @@ fun NavGraph(
     val isStaff by authViewModel.isStaff.collectAsState()
     val isCheckingSession by authViewModel.isCheckingSession.collectAsState()
 
-    if (isCheckingSession) {
-        return
-    }
+    if (isCheckingSession) return
 
     val startDestination = when {
         !isAuthenticated -> Screen.Login.route
@@ -47,13 +50,13 @@ fun NavGraph(
                 Screen.Mascotas.route,
                 Screen.Fundaciones.route,
                 Screen.Solicitudes.route,
+                Screen.Rescates.route,
+                Screen.Donaciones.route,
                 Screen.Perfil.route,
             )
 
             if (showBottomBar) {
-                BottomNavBar(
-                    navController = navController
-                )
+                BottomNavBar(navController = navController)
             }
         }
     ) { padding ->
@@ -98,24 +101,12 @@ fun NavGraph(
 
             composable(Screen.Home.route) {
                 HomeScreen(
-                    onMascotasClick = {
-                        navController.navigate(Screen.Mascotas.route)
-                    },
-                    onFundacionesClick = {
-                        navController.navigate(Screen.Fundaciones.route)
-                    },
-                    onSolicitudesClick = {
-                        navController.navigate(Screen.Solicitudes.route)
-                    },
-                    onRescatesClick = {
-                        navController.navigate(Screen.Rescates.route)
-                    },
-                    onDonacionesClick = {
-                        navController.navigate(Screen.Donaciones.route)
-                    },
-                    onPerfilClick = {
-                        navController.navigate(Screen.Perfil.route)
-                    }
+                    onMascotasClick = { navController.navigate(Screen.Mascotas.route) },
+                    onFundacionesClick = { navController.navigate(Screen.Fundaciones.route) },
+                    onSolicitudesClick = { navController.navigate(Screen.Solicitudes.route) },
+                    onRescatesClick = { navController.navigate(Screen.Rescates.route) },
+                    onDonacionesClick = { navController.navigate(Screen.Donaciones.route) },
+                    onPerfilClick = { navController.navigate(Screen.Perfil.route) },
                 )
             }
 
@@ -144,7 +135,7 @@ fun NavGraph(
                     onLogout = {
                         authViewModel.logout()
                         navController.navigate(Screen.Login.route) {
-                            popUpTo(0)
+                            popUpTo(0) { inclusive = true }
                         }
                     }
                 )

@@ -19,82 +19,39 @@ data class BottomNavItem(
 @Composable
 fun BottomNavBar(
     navController: NavController,
-    badgeCount: Int = 0,
 ) {
-
     val items = listOf(
-        BottomNavItem(
-            Screen.Home,
-            "Inicio",
-            Icons.Filled.Home,
-            Icons.Outlined.Home
-        ),
-        BottomNavItem(
-            Screen.Mascotas,
-            "Mascotas",
-            Icons.Filled.Pets,
-            Icons.Outlined.Pets
-        ),
-        BottomNavItem(
-            Screen.Fundaciones,
-            "Fundaciones",
-            Icons.Filled.Business,
-            Icons.Outlined.Business
-        ),
-        BottomNavItem(
-            Screen.Perfil,
-            "Perfil",
-            Icons.Filled.Person,
-            Icons.Outlined.Person
-        )
+        BottomNavItem(Screen.Home, "Inicio", Icons.Filled.Home, Icons.Outlined.Home),
+        BottomNavItem(Screen.Mascotas, "Mascotas", Icons.Filled.Pets, Icons.Outlined.Pets),
+        BottomNavItem(Screen.Fundaciones, "Fundaciones", Icons.Filled.Business, Icons.Outlined.Business),
+        BottomNavItem(Screen.Solicitudes, "Solicitudes", Icons.Filled.List, Icons.Outlined.List),
+        BottomNavItem(Screen.Perfil, "Perfil", Icons.Filled.Person, Icons.Outlined.Person),
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     NavigationBar {
-
         items.forEach { item ->
-
             NavigationBarItem(
                 selected = currentRoute == item.screen.route,
                 onClick = {
                     navController.navigate(item.screen.route) {
                         launchSingleTop = true
+                        restoreState = true
+                        popUpTo(Screen.Home.route) {
+                            saveState = true
+                        }
                     }
                 },
                 icon = {
-
-                    if (item.screen == Screen.Mascotas && badgeCount > 0) {
-
-                        BadgedBox(
-                            badge = {
-                                Badge {
-                                    Text(badgeCount.toString())
-                                }
-                            }
-                        ) {
-                            Icon(
-                                imageVector =
-                                    if (currentRoute == item.screen.route)
-                                        item.selectedIcon
-                                    else
-                                        item.unselectedIcon,
-                                contentDescription = item.label
-                            )
-                        }
-
-                    } else {
-
-                        Icon(
-                            imageVector =
-                                if (currentRoute == item.screen.route)
-                                    item.selectedIcon
-                                else
-                                    item.unselectedIcon,
-                            contentDescription = item.label
-                        )
-                    }
+                    Icon(
+                        imageVector = if (currentRoute == item.screen.route)
+                            item.selectedIcon
+                        else
+                            item.unselectedIcon,
+                        contentDescription = item.label
+                    )
                 },
                 label = {
                     Text(item.label)

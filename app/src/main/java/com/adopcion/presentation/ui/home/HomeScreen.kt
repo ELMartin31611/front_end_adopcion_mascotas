@@ -15,7 +15,6 @@ fun HomeScreen(
     onRescatesClick: () -> Unit,
     onDonacionesClick: () -> Unit,
     onPerfilClick: () -> Unit,
-
 ) {
     Column(
         modifier = Modifier
@@ -32,55 +31,37 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Button(
-            onClick = onMascotasClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Button(onClick = onMascotasClick, modifier = Modifier.fillMaxWidth()) {
             Text("Mascotas")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Button(
-            onClick = onFundacionesClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Button(onClick = onFundacionesClick, modifier = Modifier.fillMaxWidth()) {
             Text("Fundaciones")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Button(
-            onClick = onSolicitudesClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Button(onClick = onSolicitudesClick, modifier = Modifier.fillMaxWidth()) {
             Text("Solicitudes")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Button(
-            onClick = onRescatesClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Button(onClick = onRescatesClick, modifier = Modifier.fillMaxWidth()) {
             Text("Rescates")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Button(
-            onClick = onDonacionesClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Button(onClick = onDonacionesClick, modifier = Modifier.fillMaxWidth()) {
             Text("Donaciones")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Button(
-            onClick = onPerfilClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Button(onClick = onPerfilClick, modifier = Modifier.fillMaxWidth()) {
             Text("Perfil")
         }
     }

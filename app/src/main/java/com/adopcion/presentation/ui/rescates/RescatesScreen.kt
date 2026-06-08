@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.adopcion.domain.model.RescatePayload
 import com.adopcion.presentation.viewmodel.RescateViewModel
 
 @Composable
@@ -15,34 +16,112 @@ fun RescatesScreen(
     viewModel: RescateViewModel = hiltViewModel()
 ) {
     val rescates by viewModel.rescates.collectAsState()
+    val loading by viewModel.loading.collectAsState()
+    val error by viewModel.error.collectAsState()
+
+    var descripcion by remember { mutableStateOf("") }
+    var ubicacion by remember { mutableStateOf("") }
+    var estado by remember { mutableStateOf("Pendiente") }
 
     LaunchedEffect(Unit) {
         viewModel.loadRescates()
     }
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
-        items(rescates) { rescate ->
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
+        Text(
+            text = "Rescates",
+            style = MaterialTheme.typography.headlineMedium
+        )
 
-                    Text(
-                        text = rescate.descripcion,
-                        style = MaterialTheme.typography.titleMedium
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = descripcion,
+            onValueChange = { descripcion = it },
+            label = { Text("Descripción") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = ubicacion,
+            onValueChange = { ubicacion = it },
+            label = { Text("Ubicación") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = estado,
+            onValueChange = { estado = it },
+            label = { Text("Estado") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Button(
+            onClick = {
+                viewModel.crearRescate(
+                    RescatePayload(
+                        descripcion = descripcion,
+                        ubicacion = ubicacion,
+                        estado = estado
                     )
+                )
 
-                    Text(rescate.ubicacion)
+                descripcion = ""
+                ubicacion = ""
+                estado = "Pendiente"
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Crear Rescate")
+        }
 
-                    Text(rescate.estado)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        when {
+            loading -> {
+                CircularProgressIndicator()
+            }
+
+            error != null -> {
+                Text("Error: $error")
+            }
+
+            else -> {
+                LazyColumn {
+                    items(rescates) { rescate ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 8.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(12.dp)
+                            ) {
+                                Text("ID: ${rescate.id}")
+                                Text("Descripción: ${rescate.descripcion}")
+                                Text("Ubicación: ${rescate.ubicacion}")
+                                Text("Estado: ${rescate.estado}")
+                                Text("Fecha: ${rescate.createdAt}")
+
+                                Spacer(modifier = Modifier.height(8.dp))
+
+                                Button(
+                                    onClick = {
+                                        viewModel.eliminarRescate(rescate.id)
+                                    }
+                                ) {
+                                    Text("Eliminar")
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

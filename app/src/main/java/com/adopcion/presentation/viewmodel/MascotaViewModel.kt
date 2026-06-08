@@ -3,6 +3,7 @@ package com.adopcion.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adopcion.domain.model.Mascota
+import com.adopcion.domain.model.MascotaPayload
 import com.adopcion.domain.repository.MascotaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,19 +37,44 @@ class MascotaViewModel @Inject constructor(
 
     fun cargarMascotas() {
         viewModelScope.launch {
-
             _state.value = MascotaUiState.Loading
 
             repository.getMascotas()
                 .onSuccess {
-                    _state.value =
-                        MascotaUiState.Success(it)
+                    _state.value = MascotaUiState.Success(it)
                 }
                 .onFailure {
-                    _state.value =
-                        MascotaUiState.Error(
-                            it.message ?: "Error"
-                        )
+                    _state.value = MascotaUiState.Error(
+                        it.message ?: "Error"
+                    )
+                }
+        }
+    }
+
+    fun crearMascota(payload: MascotaPayload) {
+        viewModelScope.launch {
+            repository.createMascota(payload)
+                .onSuccess {
+                    cargarMascotas()
+                }
+                .onFailure {
+                    _state.value = MascotaUiState.Error(
+                        it.message ?: "Error al crear mascota"
+                    )
+                }
+        }
+    }
+
+    fun eliminarMascota(id: Int) {
+        viewModelScope.launch {
+            repository.deleteMascota(id)
+                .onSuccess {
+                    cargarMascotas()
+                }
+                .onFailure {
+                    _state.value = MascotaUiState.Error(
+                        it.message ?: "Error al eliminar mascota"
+                    )
                 }
         }
     }

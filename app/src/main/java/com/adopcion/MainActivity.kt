@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.adopcion.presentation.auth.LoginScreen
+import com.adopcion.presentation.navigation.NavGraph
 import com.adopcion.presentation.viewmodel.AuthViewModel
 import com.adopcion.theme.AdopcionTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,10 +23,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             AdopcionTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
+                    val authViewModel: AuthViewModel = hiltViewModel()
 
-                    val viewModel: AuthViewModel = hiltViewModel()
-
-                    LoginScreen(viewModel = viewModel)
+                    NavGraph(
+                        authViewModel = authViewModel
+                    )
                 }
             }
         }
