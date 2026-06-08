@@ -1,0 +1,23 @@
+package com.adopcion.presentation.viewmodel
+
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
+
+@HiltViewModel
+class CartViewModel @Inject constructor() : ViewModel() {
+
+    private val _totalItems = MutableStateFlow(0)
+    val totalItems: StateFlow<Int> = _totalItems.asStateFlow()
+
+    fun addItem() {
+        _totalItems.value++
+    }
+
+    fun clear() {
+        _totalItems.value = 0
+    }
+}

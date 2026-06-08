@@ -1,6 +1,7 @@
 package com.adopcion.domain.repository
 
 import com.adopcion.domain.model.Donacion
+import com.adopcion.domain.model.DonacionPayload
 
 interface DonacionRepository {
 
@@ -8,9 +9,12 @@ interface DonacionRepository {
 
     suspend fun getDonacion(id: Int): Result<Donacion>
 
-    suspend fun createDonacion(d: Donacion): Result<Donacion>
+    suspend fun createDonacion(payload: DonacionPayload): Result<Donacion>
 
-    suspend fun updateDonacion(id: Int, d: Donacion): Result<Donacion>
+    suspend fun updateDonacion(
+        id: Int,
+        payload: DonacionPayload
+    ): Result<Donacion>
 
     suspend fun deleteDonacion(id: Int): Result<Unit>
 }
