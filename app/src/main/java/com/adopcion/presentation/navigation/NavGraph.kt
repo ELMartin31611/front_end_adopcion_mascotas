@@ -20,8 +20,6 @@ import com.adopcion.presentation.ui.rescates.RescatesScreen
 import com.adopcion.presentation.ui.solicitudes.SolicitudesScreen
 import com.adopcion.presentation.viewmodel.AuthViewModel
 
-
-
 @Composable
 fun NavGraph(
     authViewModel: AuthViewModel
@@ -45,7 +43,7 @@ fun NavGraph(
             val currentRoute =
                 navController.currentBackStackEntryAsState().value?.destination?.route
 
-            val showBottomBar = currentRoute in listOf(
+            val showBottomBar = !isStaff && currentRoute in listOf(
                 Screen.Home.route,
                 Screen.Mascotas.route,
                 Screen.Fundaciones.route,
@@ -142,7 +140,19 @@ fun NavGraph(
             }
 
             composable(Screen.AdminDashboard.route) {
-                AdminDashboardScreen()
+                AdminDashboardScreen(
+                    onMascotasClick = { navController.navigate(Screen.Mascotas.route) },
+                    onFundacionesClick = { navController.navigate(Screen.Fundaciones.route) },
+                    onRescatesClick = { navController.navigate(Screen.Rescates.route) },
+                    onDonacionesClick = { navController.navigate(Screen.Donaciones.route) },
+                    onSolicitudesClick = { navController.navigate(Screen.Solicitudes.route) },
+                    onLogoutClick = {
+                        authViewModel.logout()
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
+                )
             }
         }
     }
