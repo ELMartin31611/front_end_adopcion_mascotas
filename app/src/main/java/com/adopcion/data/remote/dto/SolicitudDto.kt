@@ -1,34 +1,31 @@
 package com.adopcion.data.remote.dto
 
-import com.google.gson.annotations.SerializedName
 import com.adopcion.domain.model.Solicitud
 import com.adopcion.domain.model.SolicitudPayload
+import com.google.gson.annotations.SerializedName
 
 data class SolicitudDto(
     val id: Int,
-    val usuario: Int,
+    val usuario: String,
     val mascota: Int,
     val estado: String,
-    @SerializedName("created_at") val createdAt: String,
+    @SerializedName("fecha") val fecha: String,
 )
 
 data class SolicitudRequestDto(
-    val usuario: Int,
-    val mascota: Int,
-    val estado: String,
+    val mascota: Int? = null,
+    val estado: String? = null,
 )
 
-// mapper
 fun SolicitudDto.toDomain() = Solicitud(
     id = id,
-    usuarioId = usuario,
+    usuario = usuario,
     mascotaId = mascota,
     estado = estado,
-    createdAt = createdAt,
+    fecha = fecha,
 )
 
 fun SolicitudPayload.toRequest() = SolicitudRequestDto(
-    usuario = usuarioId,
     mascota = mascotaId,
     estado = estado,
 )

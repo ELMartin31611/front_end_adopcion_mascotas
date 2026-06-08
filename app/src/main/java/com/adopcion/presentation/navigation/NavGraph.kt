@@ -29,6 +29,7 @@ fun NavGraph(
     val isAuthenticated by authViewModel.isAuthenticated.collectAsState()
     val isStaff by authViewModel.isStaff.collectAsState()
     val isCheckingSession by authViewModel.isCheckingSession.collectAsState()
+    val currentUser by authViewModel.currentUser.collectAsState()
 
     if (isCheckingSession) return
 
@@ -130,6 +131,7 @@ fun NavGraph(
 
             composable(Screen.Perfil.route) {
                 PerfilScreen(
+                    user = currentUser,
                     onLogout = {
                         authViewModel.logout()
                         navController.navigate(Screen.Login.route) {

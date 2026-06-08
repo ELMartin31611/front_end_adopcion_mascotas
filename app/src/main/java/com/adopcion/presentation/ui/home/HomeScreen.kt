@@ -1,11 +1,15 @@
 package com.adopcion.presentation.ui.home
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.adopcion.presentation.components.*
+import com.adopcion.theme.TextSecondary
 
 @Composable
 fun HomeScreen(
@@ -19,50 +23,111 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
 
-        Text(
-            text = "Sistema de Adopción",
-            style = MaterialTheme.typography.headlineMedium
+        PawHeader(
+            title = "Adopta una mascota",
+            subtitle = "Dale una segunda oportunidad a un amigo peludo",
+            emoji = "🐶"
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = "Bienvenido",
+            style = MaterialTheme.typography.headlineLarge
+        )
 
-        Button(onClick = onMascotasClick, modifier = Modifier.fillMaxWidth()) {
-            Text("Mascotas")
+        Text(
+            text = "Explora mascotas, fundaciones y ayuda a los animales que más lo necesitan.",
+            color = TextSecondary
+        )
+
+        SectionTitle("¿Qué deseas hacer?")
+
+        PrettyCard(
+            title = "Mascotas",
+            subtitle = "Conoce perritos disponibles para adopción",
+            emoji = "🐕"
+        ) {
+            InfoChip("Encuentra tu próximo compañero", "💚")
+            Spacer(modifier = Modifier.height(10.dp))
+            PrettyButton(
+                text = "Ver mascotas",
+                onClick = onMascotasClick
+            )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Button(onClick = onFundacionesClick, modifier = Modifier.fillMaxWidth()) {
-            Text("Fundaciones")
+        PrettyCard(
+            title = "Fundaciones",
+            subtitle = "Refugios y organizaciones aliadas",
+            emoji = "🏡"
+        ) {
+            InfoChip("Ayuda como voluntario", "🤝")
+            Spacer(modifier = Modifier.height(10.dp))
+            PrettyButton(
+                text = "Ver fundaciones",
+                onClick = onFundacionesClick
+            )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Button(onClick = onSolicitudesClick, modifier = Modifier.fillMaxWidth()) {
-            Text("Solicitudes")
+        PrettyCard(
+            title = "Solicitudes",
+            subtitle = "Consulta tus solicitudes de adopción",
+            emoji = "📋"
+        ) {
+            InfoChip("Seguimiento de adopciones", "🐾")
+            Spacer(modifier = Modifier.height(10.dp))
+            PrettyButton(
+                text = "Ver solicitudes",
+                onClick = onSolicitudesClick
+            )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Button(onClick = onRescatesClick, modifier = Modifier.fillMaxWidth()) {
-            Text("Rescates")
+        PrettyCard(
+            title = "Rescates",
+            subtitle = "Animales rescatados recientemente",
+            emoji = "🚑"
+        ) {
+            InfoChip("Historias de esperanza", "🌿")
+            Spacer(modifier = Modifier.height(10.dp))
+            PrettyButton(
+                text = "Ver rescates",
+                onClick = onRescatesClick
+            )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Button(onClick = onDonacionesClick, modifier = Modifier.fillMaxWidth()) {
-            Text("Donaciones")
+        PrettyCard(
+            title = "Donaciones",
+            subtitle = "Apoya económicamente a los refugios",
+            emoji = "💚"
+        ) {
+            InfoChip("Toda ayuda cuenta", "💸")
+            Spacer(modifier = Modifier.height(10.dp))
+            PrettyButton(
+                text = "Donar ahora",
+                onClick = onDonacionesClick
+            )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Button(onClick = onPerfilClick, modifier = Modifier.fillMaxWidth()) {
-            Text("Perfil")
+        PrettyCard(
+            title = "Mi Perfil",
+            subtitle = "Gestiona tu información personal",
+            emoji = "👤"
+        ) {
+            Spacer(modifier = Modifier.height(10.dp))
+            PrettyButton(
+                text = "Abrir perfil",
+                onClick = onPerfilClick
+            )
         }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Text(
+            text = "🐾 Gracias por apoyar la adopción responsable.",
+            color = TextSecondary
+        )
     }
 }

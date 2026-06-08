@@ -2,14 +2,13 @@ package com.adopcion.domain.model
 
 data class Solicitud(
     val id: Int,
-    val usuarioId: Int,
+    val usuario: String,
     val mascotaId: Int,
     val estado: String,
-    val createdAt: String,
+    val fecha: String,
 )
 
 data class SolicitudPayload(
-    val usuarioId: Int,
     val mascotaId: Int,
-    val estado: String,
+    val estado: String = "Pendiente",
 )
